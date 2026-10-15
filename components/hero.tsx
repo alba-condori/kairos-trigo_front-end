@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { ChevronDown } from 'lucide-react'
 import { Logo } from '@/components/logo'
 
@@ -26,17 +27,25 @@ export function Hero() {
         <p className="mt-2 text-lg font-medium tracking-wide text-balance sm:text-2xl">
           Panadería y pastelería artesanal
         </p>
-        <a
-          href="#panaderia"
-          className="mt-10 inline-flex items-center justify-center rounded-full bg-primary-foreground px-8 py-3.5 text-base font-bold text-primary shadow-lg transition hover:bg-primary-foreground/90 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-primary-foreground/60"
-        >
-          Hacé tu pedido
-        </a>
+        <div className="mt-10 flex w-full max-w-xs flex-col gap-3 sm:max-w-none sm:flex-row sm:justify-center">
+          <Link
+            href="/menu"
+            className="inline-flex items-center justify-center rounded-full bg-primary-foreground px-8 py-3.5 text-base font-bold text-primary shadow-lg transition hover:bg-primary-foreground/90 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-primary-foreground/60"
+          >
+            Ver el menú
+          </Link>
+          <Link
+            href="/pedido-personalizado"
+            className="inline-flex items-center justify-center rounded-full border-2 border-primary-foreground px-8 py-3 text-base font-bold text-primary-foreground transition hover:bg-primary-foreground/10 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-primary-foreground/60"
+          >
+            Pedido personalizado
+          </Link>
+        </div>
       </div>
 
       <a
-        href="#panaderia"
-        aria-label="Bajar al catálogo"
+        href="#nosotros"
+        aria-label="Bajar a Sobre nosotros"
         className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce text-primary-foreground"
       >
         <ChevronDown className="size-8" aria-hidden="true" />

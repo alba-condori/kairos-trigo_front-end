@@ -1,6 +1,7 @@
 'use client'
 
 import { ShoppingBag, Trash2 } from 'lucide-react'
+import Link from 'next/link'
 import { useCart, type CartLine } from '@/components/cart/cart-provider'
 import { QuantityStepper } from '@/components/quantity-stepper'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet'
@@ -21,15 +22,28 @@ function LineDetails({ line }: { line: CartLine }) {
       </>
     )
   }
+  if (line.type === 'Torta') {
+    return (
+      <>
+        <p className="font-bold">Torta personalizada</p>
+        {line.servings > 0 && (
+          <p className="text-sm text-muted-foreground">{`${line.servings} porciones`}</p>
+        )}
+        <p className="text-sm text-muted-foreground">{`Bizcochuelo: ${line.flavor}`}</p>
+        <p className="line-clamp-2 text-sm text-muted-foreground">{line.details}</p>
+        {line.referenceImage && (
+          <p className="text-sm text-muted-foreground">Imagen de referencia por WhatsApp</p>
+        )}
+        {line.referenceLink && (
+          <p className="truncate text-sm text-muted-foreground">{`Link: ${line.referenceLink}`}</p>
+        )}
+      </>
+    )
+  }
   return (
     <>
-      <p className="font-bold">
-        {line.type === 'Torta' ? 'Torta personalizada' : 'Pedido personalizado'}
-      </p>
-      {line.type === 'Torta' && line.servings && (
-        <p className="text-sm text-muted-foreground">{`${line.servings} porciones`}</p>
-      )}
-      <p className="text-sm text-muted-foreground">{`Bizcochuelo: ${line.flavor}`}</p>
+      <p className="font-bold">Pedido personalizado</p>
+      <p className="text-sm text-muted-foreground">{line.what}</p>
       <p className="line-clamp-2 text-sm text-muted-foreground">{line.details}</p>
     </>
   )
@@ -45,7 +59,6 @@ export function CartDrawer() {
     updateQuantity,
     removeLine,
     setCheckoutOpen,
-    setCustomOpen,
   } = useCart()
 
   const goToCheckout = () => {
@@ -68,9 +81,9 @@ export function CartDrawer() {
             <ShoppingBag className="size-12" aria-hidden="true" />
             <p className="text-lg font-semibold">Tu carrito está vacío</p>
             <p className="text-muted-foreground">Elegí tus productos favoritos del catálogo.</p>
-            <a href="#panaderia" onClick={() => setCartOpen(false)} className={secondaryButtonClass}>
-              Ver productos
-            </a>
+            <Link href="/menu" onClick={() => setCartOpen(false)} className={secondaryButtonClass}>
+              Ver el menú
+            </Link>
           </div>
         ) : (
           <>
@@ -116,16 +129,13 @@ export function CartDrawer() {
               <button type="button" onClick={goToCheckout} className={primaryButtonClass}>
                 Continuar
               </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setCartOpen(false)
-                  setCustomOpen(true)
-                }}
-                className="text-sm font-semibold underline underline-offset-4"
+              <Link
+                href="/pedido-personalizado"
+                onClick={() => setCartOpen(false)}
+                className="text-center text-sm font-semibold underline underline-offset-4"
               >
                 Sumar un pedido personalizado
-              </button>
+              </Link>
             </div>
           </>
         )}

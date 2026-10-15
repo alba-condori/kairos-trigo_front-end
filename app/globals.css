@@ -7,6 +7,7 @@
 @theme inline {
   --font-sans: var(--font-elms-sans), ui-sans-serif, system-ui, sans-serif;
   --font-logo: var(--font-reenie-beanie), cursive;
+  --font-label: var(--font-gaegu), cursive;
 
   --color-ring: var(--ring);
   --color-input: var(--input);
