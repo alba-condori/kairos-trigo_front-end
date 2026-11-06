@@ -44,11 +44,19 @@ export function buildOrderMessage(customer: CustomerDetails, lines: CartLine[], 
   if (customs.length > 0) {
     parts.push('', '*Pedidos personalizados*')
     customs.forEach((line, index) => {
-      parts.push(`${index + 1}. ${line.type === 'Torta' ? 'Torta' : 'Otro (mesa dulce u otro)'}`)
-      parts.push(`   Cantidad: ${line.quantity}`)
-      if (line.type === 'Torta' && line.servings) parts.push(`   Porciones: ${line.servings}`)
-      parts.push(`   Bizcochuelo: ${line.flavor}`)
-      parts.push(`   Detalles: ${line.details}`)
+      if (line.type === 'Torta') {
+        parts.push(`${index + 1}. Torta`)
+        parts.push(`   Cantidad: ${line.quantity}`)
+        if (line.servings) parts.push(`   Porciones: ${line.servings}`)
+        parts.push(`   Bizcochuelo: ${line.flavor}`)
+        parts.push(`   Detalles: ${line.details}`)
+        if (line.referenceImage) parts.push('   Te envío una imagen de referencia por este chat')
+        if (line.referenceLink) parts.push(`   Link de referencia: ${line.referenceLink}`)
+      } else {
+        parts.push(`${index + 1}. ${line.what}`)
+        parts.push(`   Cantidad: ${line.quantity}`)
+        parts.push(`   Detalles: ${line.details}`)
+      }
       parts.push('   Precio: A cotizar')
     })
   }

@@ -15,21 +15,35 @@ export type ProductLine = {
   leadTimeHours: number
 }
 
-export type CustomLine = {
+type CustomBase = {
   kind: 'custom'
   key: string
-  type: 'Torta' | 'Otro'
   quantity: number
-  servings?: number
-  flavor: string
   details: string
   leadTimeHours: number
 }
 
+export type CakeCustomLine = CustomBase & {
+  type: 'Torta'
+  servings: number
+  flavor: string
+  referenceImage: boolean
+  referenceLink?: string
+}
+
+export type OtherCustomLine = CustomBase & {
+  type: 'Otro'
+  what: string
+}
+
+export type CustomLine = CakeCustomLine | OtherCustomLine
+
 export type CartLine = ProductLine | CustomLine
 
 type NewProductLine = Omit<ProductLine, 'key' | 'kind'>
-type NewCustomLine = Omit<CustomLine, 'key' | 'kind'>
+export type NewCustomLine =
+  | Omit<CakeCustomLine, 'key' | 'kind'>
+  | Omit<OtherCustomLine, 'key' | 'kind'>
 
 type CartContextValue = {
   lines: CartLine[]
@@ -44,8 +58,6 @@ type CartContextValue = {
   clearCart: () => void
   isCartOpen: boolean
   setCartOpen: (open: boolean) => void
-  isCustomOpen: boolean
-  setCustomOpen: (open: boolean) => void
   isCheckoutOpen: boolean
   setCheckoutOpen: (open: boolean) => void
 }
@@ -62,7 +74,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([])
   const [hydrated, setHydrated] = useState(false)
   const [isCartOpen, setCartOpen] = useState(false)
-  const [isCustomOpen, setCustomOpen] = useState(false)
   const [isCheckoutOpen, setCheckoutOpen] = useState(false)
 
   useEffect(() => {
@@ -98,7 +109,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const addCustom = useCallback((line: NewCustomLine) => {
     setLines((current) => [
       ...current,
-      { ...line, kind: 'custom', key: `custom-${Date.now()}-${Math.random().toString(36).slice(2, 7)}` },
+      {
+        ...line,
+        kind: 'custom',
+        key: `custom-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      } as CustomLine,
     ])
   }, [])
 
@@ -136,12 +151,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       clearCart,
       isCartOpen,
       setCartOpen,
-      isCustomOpen,
-      setCustomOpen,
       isCheckoutOpen,
       setCheckoutOpen,
     }
-  }, [lines, addProduct, addCustom, updateQuantity, removeLine, clearCart, isCartOpen, isCustomOpen, isCheckoutOpen])
+  }, [lines, addProduct, addCustom, updateQuantity, removeLine, clearCart, isCartOpen, isCheckoutOpen])
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }

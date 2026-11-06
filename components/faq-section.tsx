@@ -1,5 +1,8 @@
+import { MessageCircle } from 'lucide-react'
 import { SectionHeading } from '@/components/section-heading'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { primaryButtonClass } from '@/lib/form-styles'
+import { siteConfig } from '@/lib/site-config'
 
 const faqs = [
   {
@@ -27,7 +30,7 @@ export function FaqSection() {
   return (
     <section id="preguntas" aria-labelledby="preguntas-title" className="px-4 py-20 md:px-6 md:py-28">
       <div className="mx-auto max-w-3xl">
-        <SectionHeading id="preguntas-title" eyebrow="dudas" title="Preguntas frecuentes" />
+        <SectionHeading as="h1" id="preguntas-title" eyebrow="dudas" title="Preguntas frecuentes" />
         <Accordion className="mt-10 border-t border-border">
           {faqs.map((faq) => (
             <AccordionItem key={faq.question} value={faq.question} className="border-b border-border">
@@ -40,6 +43,19 @@ export function FaqSection() {
             </AccordionItem>
           ))}
         </Accordion>
+
+        <div className="mt-12 flex flex-col items-start gap-4 rounded-3xl bg-muted p-6 md:flex-row md:items-center md:justify-between md:p-8">
+          <p className="text-lg font-semibold text-pretty">¿Tenés otra consulta?</p>
+          <a
+            href={`https://wa.me/${siteConfig.whatsappNumber}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={primaryButtonClass}
+          >
+            <MessageCircle className="size-5" aria-hidden="true" />
+            Hablá con nosotros por WhatsApp
+          </a>
+        </div>
       </div>
     </section>
   )

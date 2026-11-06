@@ -10,10 +10,8 @@ export const siteConfig = {
 }
 
 export const navLinks = [
-  { href: '#panaderia', label: 'Panadería' },
-  { href: '#pasteleria', label: 'Pastelería' },
-  { href: '#personalizados', label: 'Personalizados' },
-  { href: '#nosotros', label: 'Nosotros' },
-  { href: '#preguntas', label: 'Preguntas' },
-  { href: '#contacto', label: 'Contacto' },
+  { href: '/', label: 'Inicio' },
+  { href: '/menu', label: 'Menú' },
+  { href: '/pedido-personalizado', label: 'Pedido personalizado' },
+  { href: '/info', label: 'Info' },
 ]

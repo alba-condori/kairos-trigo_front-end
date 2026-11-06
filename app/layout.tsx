@@ -1,6 +1,11 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Elms_Sans, Reenie_Beanie } from 'next/font/google'
+import { Elms_Sans, Gaegu, Reenie_Beanie } from 'next/font/google'
+import { CartDrawer } from '@/components/cart/cart-drawer'
+import { CartProvider } from '@/components/cart/cart-provider'
+import { CheckoutDialog } from '@/components/cart/checkout-dialog'
+import { SiteFooter } from '@/components/site-footer'
+import { SiteHeader } from '@/components/site-header'
 import './globals.css'
 
 const elmsSans = Elms_Sans({
@@ -16,8 +21,18 @@ const reenieBeanie = Reenie_Beanie({
   display: 'swap',
 })
 
+const gaegu = Gaegu({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-gaegu',
+  display: 'swap',
+})
+
 export const metadata: Metadata = {
-  title: 'Kairos Trigo | Panadería y pastelería artesanal',
+  title: {
+    default: 'Kairos Trigo | Panadería y pastelería artesanal',
+    template: '%s | Kairos Trigo',
+  },
   description:
     'Panadería y pastelería artesanal hecha en casa y a pedido. Panes, tortas y pedidos personalizados con retiro o envío a domicilio en Ciudad de Buenos Aires.',
   generator: 'v0.app',
@@ -42,9 +57,15 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es-AR" className={`${elmsSans.variable} ${reenieBeanie.variable}`}>
+    <html lang="es-AR" className={`${elmsSans.variable} ${reenieBeanie.variable} ${gaegu.variable}`}>
       <body className="antialiased">
-        {children}
+        <CartProvider>
+          <SiteHeader />
+          {children}
+          <SiteFooter />
+          <CartDrawer />
+          <CheckoutDialog />
+        </CartProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
