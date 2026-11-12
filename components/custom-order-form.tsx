@@ -168,9 +168,8 @@ export function CustomOrderForm({ className }: { className?: string }) {
         />
       </div>
 
-      {isCake && (
-        <>
-          <label className="flex cursor-pointer items-start gap-3">
+      
+      <label className="flex cursor-pointer items-start gap-3">
             <input
               type="checkbox"
               checked={referenceImage}
@@ -197,8 +196,8 @@ export function CustomOrderForm({ className }: { className?: string }) {
               className={fieldClass}
             />
           </div>
-        </>
-      )}
+      
+          
 
       <p className="text-sm text-muted-foreground">
         {`Precio: a cotizar. Recordá encargarlo con un mínimo de ${siteConfig.customOrderLeadTimeHours} hs de anticipación.`}

@@ -8,41 +8,62 @@ import { choiceClass, fieldClass, labelClass, primaryButtonClass } from '@/lib/f
 import { formatPrice, minDateFromNow } from '@/lib/format'
 import { buildOrderMessage, whatsappUrl, type CustomerDetails } from '@/lib/order-message'
 import { siteConfig } from '@/lib/site-config'
+import { useEnviarPedido } from '@/hooks/useEnviarPedido'
 
 type Mode = CustomerDetails['mode']
 
 export function CheckoutDialog() {
-  const { lines, total, hasCustom, leadTimeHours, isCheckoutOpen, setCheckoutOpen, setCartOpen } = useCart()
+  const { lines, total, hasCustom, leadTimeHours, isCheckoutOpen, setCheckoutOpen, setCartOpen, clearCart } = useCart()
+  const { enviar, enviando, error } = useEnviarPedido()
   const [name, setName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [phone, setPhone] = useState('')
   const [mode, setMode] = useState<Mode>('Retiro')
   const [address, setAddress] = useState('')
   const [date, setDate] = useState('')
   const [timeSlot, setTimeSlot] = useState('')
   const [dateError, setDateError] = useState('')
-
+  
   const minDate = isCheckoutOpen ? minDateFromNow(leadTimeHours) : ''
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    if (date < minDateFromNow(leadTimeHours)) {
-      setDateError(`Elegí una fecha con al menos ${leadTimeHours} hs de anticipación.`)
-      return
-    }
-    const message = buildOrderMessage(
-      {
-        name: name.trim(),
-        phone: phone.trim(),
-        mode,
-        address: mode === 'Envío a domicilio' ? address.trim() : undefined,
-        date,
-        timeSlot,
-      },
-      lines,
-      total,
-    )
-    window.open(whatsappUrl(message), '_blank', 'noopener,noreferrer')
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault()
+  if (date < minDateFromNow(leadTimeHours)) {
+    setDateError(`Elegí una fecha con al menos ${leadTimeHours} hs de anticipación.`)
+    return
   }
+
+  const cliente = {
+    name: name.trim(),
+    lastName: lastName.trim(),
+    phone: phone.trim(),
+    mode,
+    address: mode === 'Envío a domicilio' ? address.trim() : undefined,
+    date,
+    timeSlot,
+  }
+
+  // Abrimos la pestaña ahora (con el click) porque si se abre después de esperar, el navegador la bloquea
+  const ventana = window.open('', '_blank')
+
+  const guardado = await enviar(cliente, lines, total)
+  if (!guardado) {
+    ventana?.close()
+    return
+  }
+
+  const url = whatsappUrl(buildOrderMessage(cliente, lines, total))
+  if (ventana) {
+    ventana.opener = null
+    ventana.location.href = url
+  } else {
+    window.location.href = url
+  }
+
+  // Ya quedó guardado: vaciamos el carrito para que no se pueda mandar dos veces el mismo pedido
+  clearCart()
+  setCheckoutOpen(false)
+}
 
   const backToCart = () => {
     setCheckoutOpen(false)
@@ -83,6 +104,20 @@ export function CheckoutDialog() {
                   maxLength={80}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  className={fieldClass}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="checkout-lastname" className={labelClass}>
+                  Apellido
+                </label>
+                <input
+                  id="checkout-lastname"
+                  required
+                  autoComplete="family-name"
+                  maxLength={80}
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                   className={fieldClass}
                 />
               </div>
@@ -202,8 +237,13 @@ export function CheckoutDialog() {
               </p>
             </div>
 
-            <button type="submit" className={primaryButtonClass}>
-              Enviar pedido
+            {error && (
+              <p role="alert" className="text-sm font-semibold">
+                No pudimos guardar tu pedido: {error}
+              </p>
+            )}
+            <button type="submit" disabled={enviando} className={primaryButtonClass}>
+              {enviando ? 'Enviando...' : 'Enviar pedido'}
             </button>
           </form>
         )}

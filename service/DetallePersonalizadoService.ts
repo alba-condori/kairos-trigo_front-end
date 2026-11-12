@@ -1,6 +1,6 @@
 import type { Cliente, ClienteRequest, DetallePedido, DetallePedidoRequest, DetallePersonalizado, DetallePersonalizadoRequest, Page, Pedido, PedidoRequest } from "@/types/api";
 
-const URL = "http://127.0.0.1:8080/api/detalles-personalizado";
+const URL = "http://127.0.0.1:8080/api/detalles-personalizados";
 
 export async function obtenerDetallesPersonalizado(): Promise<Page<DetallePersonalizado>> {
   const response = await fetch(`${URL}?size=100`);

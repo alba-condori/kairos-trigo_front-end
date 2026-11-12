@@ -4,6 +4,7 @@ import { siteConfig } from '@/lib/site-config'
 
 export type CustomerDetails = {
   name: string
+  lastName: string
   phone: string
   mode: 'Retiro' | 'Envío a domicilio'
   address?: string
@@ -19,7 +20,7 @@ export function buildOrderMessage(customer: CustomerDetails, lines: CartLine[], 
     `¡Hola ${siteConfig.name}! Quiero hacer un pedido:`,
     '',
     '*Datos del cliente*',
-    `Nombre: ${customer.name}`,
+    `Nombre: ${customer.name} ${customer.lastName}`,
     `Teléfono: ${customer.phone}`,
     '',
     '*Entrega*',
