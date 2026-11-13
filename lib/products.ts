@@ -40,7 +40,7 @@ export const products: Product[] = [
     price: 10000,
     unit: 'c/u',
     category: 'panaderia',
-    image: '/images/pan-dulce.png',
+    image: '/images/pan-dulce.jpg',
     options: [
       {
         id: 'variedad',
@@ -57,7 +57,7 @@ export const products: Product[] = [
     price: 2500,
     unit: 'c/u',
     category: 'panaderia',
-    image: '/images/rollo-canela.png',
+    image: '/images/rollo-canela.jpg',
     leadTimeHours: 48,
   },
   {
@@ -67,7 +67,7 @@ export const products: Product[] = [
     price: 3000,
     unit: 'c/u',
     category: 'panaderia',
-    image: '/images/pan-de-campo.png',
+    image: '/images/pan-de-campo.jpg',
     leadTimeHours: 48,
   },
   {
@@ -77,7 +77,7 @@ export const products: Product[] = [
     price: 1000,
     unit: 'c/u',
     category: 'panaderia',
-    image: '/images/baguette.png',
+    image: '/images/baguette.jpg',
     leadTimeHours: 48,
   },
   {
@@ -87,7 +87,7 @@ export const products: Product[] = [
     price: 2000,
     unit: 'c/u',
     category: 'panaderia',
-    image: '/images/pan-casero.png',
+    image: '/images/pan-casero.jpg',
     leadTimeHours: 48,
   },
   {
@@ -97,7 +97,7 @@ export const products: Product[] = [
     price: 1500,
     unit: 'c/u',
     category: 'panaderia',
-    image: '/images/empanadas.png',
+    image: '/images/empanadas.jpg',
     leadTimeHours: 48,
   },
   {
@@ -107,7 +107,7 @@ export const products: Product[] = [
     price: 2200,
     unit: 'c/u',
     category: 'panaderia',
-    image: '/images/rollo-queso.png',
+    image: '/images/rollo-queso.jpg',
     leadTimeHours: 48,
   },
 
@@ -118,7 +118,7 @@ export const products: Product[] = [
     description: 'Bizcochuelo húmedo de chocolate con ganache intensa.',
     price: 40000,
     category: 'pasteleria',
-    image: '/images/torta-matilda.png',
+    image: '/images/torta-matilda.jpg',
     servings: '10 a 12 porciones',
     leadTimeHours: 72,
   },
@@ -128,7 +128,7 @@ export const products: Product[] = [
     description: 'Vainillas embebidas en café, crema suave y cacao.',
     price: 44000,
     category: 'pasteleria',
-    image: '/images/tiramisu.png',
+    image: '/images/tiramisu.jpg',
     servings: '10 a 12 porciones',
     leadTimeHours: 72,
   },
@@ -138,7 +138,7 @@ export const products: Product[] = [
     description: 'Base crocante, crema de queso y cobertura de frutos rojos.',
     price: 48000,
     category: 'pasteleria',
-    image: '/images/cheesecake.png',
+    image: '/images/cheesecake.jpg',
     servings: '12 a 15 porciones',
     leadTimeHours: 72,
   },
@@ -148,20 +148,11 @@ export const products: Product[] = [
     description: 'Masa sablée, crema de limón y merengue tostado.',
     price: 30000,
     category: 'pasteleria',
-    image: '/images/lemon-pie.png',
+    image: '/images/lemon-pie.jpg',
     servings: '10 a 12 porciones',
     leadTimeHours: 72,
   },
-  {
-    id: 'tartas-dulces',
-    name: 'Tartas dulces',
-    description: 'Tartas caseras para compartir en la merienda.',
-    price: 12000,
-    category: 'pasteleria',
-    image: '/images/tarta-dulce.png',
-    servings: '8 porciones',
-    leadTimeHours: 72,
-  },
+  
 ]
 
 export const getProductsByCategory = (category: ProductCategory) =>
